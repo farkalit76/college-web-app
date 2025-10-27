@@ -1,0 +1,79 @@
+1. Create Courses--> It is crated by default.
+---------------------
+2. Create Student
+----------------------
+{
+  "firstName": "Farooq",
+  "lastName": "usman",
+  "dateOfBirth": "2001-07-22",
+  "gender": "M",
+  "isActive": true
+}
+
+3. Student's Address
+----------------------------------
+{
+  "studentId": "2025-5174",
+  "localAddress": "okhla",
+  "permanentAdd": "Patna",
+  "permanentCity": "Patna",
+  "permanentState": "Bihar",
+  "permanentPIN": "800001",
+  "phoneNumber": "9900990099",
+  "emailId": "test@gmail.com",
+  "guardianName": "Usmani",
+  "guardianContact": "9988998899",
+  "emergencyContact": "1100110011"
+}
+
+4. Student's Enrollment
+----------------------
+{
+  "studentId": "2025-5174",
+  "courseId": 105,
+  "enrollmentDate": "2025-07-22",
+  "isPaid": false,
+  "paymentId": 0,
+  "isActive": false
+}
+
+5. Fee Payment
+---------------------------------
+{
+  "studentId": "2025-5174",
+  "academicYear": "2025-26",
+  "feePaid": 15000.00,
+  "penaltyPaid": 0.0,
+  "paymentDate": "2025-07-22",
+  "paymentMode": "CASH",
+  "createdAt": "2025-07-22T13:18:51.001Z",
+  "createdBy": "usman"
+}
+
+6. Create Teachers
+--------------------------
+{
+  "firstName": "Ahmad",
+  "lastName": "Usmani",
+  "dateOfBirth": "2003-07-23",
+  "gender": "M",
+  "hireDate": "2024-07-23",
+  "studentAddress": "Okhla , Delhi-110025",
+  "phoneNumber": "9900119900",
+  "email": "ahmad@gmail.com",
+  "qualification": "B.Tech",
+  "experience": 5,
+  "subjectExpert": "Mathematics, Physics",
+  "isActive": true
+}
+
+7. Create Course
+------------------
+{
+  "courseId" : "CR-199",
+  "courseName": "I",
+  "subjects": "Maths, Science, Hindi, English, SST",
+  "descriptions": "All subjects",
+  "credits": 100,
+  "isActive": true
+}
