@@ -1,0 +1,123 @@
+
+<body class="bg-light p-4">
+  <div class="container">
+    <h2 class="mb-4">Student Registration</h2>
+
+    <!-- Top Section: Student Form -->
+    <form class="bg-white p-4 rounded shadow-sm mb-5" (ngSubmit)="onSubmit(studentForm)" #studentForm="ngForm">
+      
+      <!-- Row 1: First Name | Last Name | Date of Birth -->
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="firstName" class="form-label">First Name *</label>
+          <input type="text" [(ngModel)]="studentObj.firstName" class="form-control" id="firstName" name="firstName" required maxlength="20" #firstName="ngModel"/>
+          <div class="invalid-feedback d-block" *ngIf="firstName.invalid && submitted">
+            First Name is required.
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="lastName" class="form-label">Last Name *</label>
+          <input type="text" [(ngModel)]="studentObj.lastName" class="form-control" id="lastName" name="lastName" required maxlength="20" #lastName="ngModel" />
+          <div class="invalid-feedback d-block" *ngIf="lastName.invalid && submitted">
+            Last Name is required.
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="dob" class="form-label">Date of Birth *</label>
+          <input type="date" [(ngModel)]="studentObj.dob" class="form-control" id="dob" name="dob" required #dob="ngModel" />
+          <div class="invalid-feedback d-block" *ngIf="dob.invalid && submitted">
+            Date of Birth is required.
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: Email | Phone | -->
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="email" class="form-label">Email *</label>
+          <input type="text" [(ngModel)]="studentObj.email" class="form-control" id="email" name="email" required maxlength="50" #email="ngModel"/>
+          <div class="invalid-feedback d-block" *ngIf="email.invalid && submitted">
+            Email is required.
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="phone" class="form-label">Phone *</label>
+          <input type="text" [(ngModel)]="studentObj.phone" class="form-control" id="phone" name="phone" required maxlength="15" #phone="ngModel" />
+          <div class="invalid-feedback d-block" *ngIf="phone.invalid && submitted">
+            Phone is required.
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- Row 3: Gender | Active | Save Button -->
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label for="gender" class="form-label">Gender *</label>
+          <select [(ngModel)]="studentObj.gender" class="form-control" id="gender" name="gender" required #gender="ngModel">
+            <option value="">-- Select --</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+          </select>
+          <div class="invalid-feedback d-block" *ngIf="gender.invalid && submitted">
+            Gender is required.
+          </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+          <div class="form-check mt-2">
+            <input [(ngModel)]="studentObj.active" class="form-check-input" type="checkbox" id="isActive" name="isActive" checked />
+            <label class="form-check-label" for="active">Active</label>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+          <button type="submit"  class="btn btn-primary w-100">Save Student</button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Bottom Section: Table -->
+    <h4>Student List</h4>
+    <div class="table-responsive bg-white rounded shadow-sm">
+      <table class="table table-bordered table-striped table-hover align-middle">
+        <thead class="table-primary">
+          <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Admit Date</th>
+            <th>Active</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of studentList; track $index;) {
+            <tr>
+              <td>{{ item.studentId }}</td>
+              <td>{{ item.firstName }} &nbsp;{{ item.lastName }}</td>
+              <td>{{ item.dob }}</td>
+              <td>{{ item.gender }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.phone }}</td>
+              <td>{{ item.admissionDate }}</td>
+              <td>{{ item.active }}</td>
+              <td>
+                <input class="btn btn-success" type="button" (click)="editStudent(item.sid)" value="Edit" />
+                &nbsp;
+                <button class="btn btn-primary" [routerLink]="['/address-page', item.studentId]">Fill Address</button>
+              </td>
+            </tr>
+          }
+          @if (studentList.length === 0) {
+            <tr>
+              <td colspan="6">No data available</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>

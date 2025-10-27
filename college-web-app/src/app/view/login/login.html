@@ -1,0 +1,21 @@
+
+<body class="bg-light p-4">
+  <div class="container">
+
+
+    <h1>User Login Page</h1>
+
+        <div class="login-container">
+        <h2>Login</h2>
+        <input type="text" placeholder="Username" [(ngModel)]="username" />
+        <br/>
+        <input type="password" placeholder="Password" [(ngModel)]="password" />
+        <br/>
+        <button (click)="onLogin()">Login</button>
+        <br/>
+        <p class="error" *ngIf="error">{{ error }}</p>
+        </div>
+
+
+  </div>
+</body>

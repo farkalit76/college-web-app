@@ -1,0 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
+.primary{
+    color: #e5f0f5;
+    background-color: hsl(211, 21%, 79%);
+    border-color: #007bff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif, Courier, monospace;
+}

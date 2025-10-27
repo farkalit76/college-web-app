@@ -1,0 +1,129 @@
+
+<body class="bg-light p-4">
+  <div class="container">
+    <h2 class="mb-4">Create New User</h2>
+
+
+    <!-- Top Section: Student Form -->
+    <form class="bg-white p-4 rounded shadow-sm mb-5" (ngSubmit)="onSubmit(usersForm)" #usersForm="ngForm">
+	 
+      <!-- Row 1: First Name | Last Name | Date of Birth -->
+        @if(userAction != 'UPDATE'){
+        
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="userName" class="form-label">User Name *</label>
+                <input type="text" [(ngModel)]="usersObj.userName" class="form-control" id="userName" name="userName" required maxlength="20" #userName="ngModel"/>
+                <div class="invalid-feedback d-block" *ngIf="userName.invalid && submitted">
+                    Users Name is required.
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <label for="password" class="form-label">Password *</label>
+                <input type="password" [(ngModel)]="usersObj.password" class="form-control" id="password" name="password" required maxlength="20" #password="ngModel" />
+                <div class="invalid-feedback d-block" *ngIf="password.invalid && submitted">
+                    Password is required.
+                </div>
+                <!-- <img src="images/eye01.png" class="toggle-eye" id="toggleEye" onclick="showKey()"> -->
+            </div>
+        </div>
+        } @else {
+            <div class="row g-3">UPDATE <{{usersObj.userName}}></div>
+        }
+
+        <!-- Row 3: Gender | Active | Save Button -->
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label for="role" class="form-label">Role *</label>
+                <select [(ngModel)]="usersObj.role" class="form-control" id="role" name="role" required #role="ngModel">
+                    <option value="4">USER</option>
+                    <option value="3">STAFF</option>
+                    <option value="2">MANAGER</option>
+                    <option value="1">ADMIN</option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="role.invalid && submitted">
+                    Role is required.
+                </div>
+            </div>
+            
+           
+             <div class="col-md-4">
+                <label for="status" class="form-label">Status *</label>
+                <select [(ngModel)]="usersObj.status" class="form-control" id="status" name="status" required #status="ngModel">
+                    <option value="1">ACTIVE</option>
+                    <option value="2">INACTIVE</option>
+                    <option value="3">SUSPENDED</option>
+                    <option value="4">REJECTED</option>
+                    <option value="5">DELETED</option>
+                </select>
+                <div class="invalid-feedback d-block" *ngIf="status.invalid && submitted">
+                    Status is required.
+                </div>
+            </div>
+
+	     <div class="col-md-4 d-flex align-items-end">
+          <button type="submit"  class="btn btn-primary w-100">Save User</button>
+        </div>
+      </div>
+    </form>
+	
+    
+    <div class="mb-3">
+        <div class="input-group">
+            <label for="status" class="form-label" >Search User: </label>
+            <input type="text" class="form-control"  id="searchuser" name="searchuser" [(ngModel)]="usersObj.searchUser"  
+                    placeholder="Enter username to search" />&nbsp;
+            <button class="btn btn-success" type="button" (click)="searchByUserName()">
+            Search User
+            </button>
+        </div>
+        </div>
+	
+    <!-- Bottom Section: Table -->
+    <h4>Users List</h4>
+	<div class="table-responsive bg-white rounded shadow-sm">
+      <table class="table table-bordered table-striped table-hover align-middle">
+        <thead class="table-primary">
+	    <tr>
+	        <th>User ID</th>
+	        <th>User Name</th>
+	        <th>Password</th>
+	        <th>Role</th>
+	        <th>Status</th>
+	        <th>Last Login At</th>
+	        <th>Created AT</th>
+	        <th>Actions</th>
+	    </tr>
+        </thead>
+        <tbody>
+
+
+        @for (item of usersList; track $index;) {
+            <tr>
+              <td>{{ item.userId }}</td>
+              <td>{{ item.userName }}</td>
+              <td>*****</td>
+              <td>{{ item.role }}</td>
+              <td>{{ item.status }}</td>
+              <td>{{ item.lastLoginAt | date: 'dd-MM-yyyy hh:mm'}}</td>
+              <td>{{ item.createdAt | date: 'dd-MM-yyyy'}}</td>
+              <td>
+                <input class="btn btn-success" type="button" (click)="deleteUsers(item.userId)" value="Delete" />
+                &nbsp; 
+                <input class="btn btn-success" type="button" (click)="editUsers(item.userId)" value="Edit" />
+              </td>
+            </tr>
+          }
+          @if (usersList.length === 0) {
+            <tr>
+              <td colspan="8">No data available</td>
+            </tr>
+          }
+        </tbody>
+    </table>
+	
+    </div>
+  </div>
+
+</body>
