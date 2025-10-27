@@ -8,8 +8,13 @@ My Task: I want to create a BE and FE application with:
 
 
 3. Command for Angular application
+   
   ng new angular-auth-demo --standalone false --routing true --style css
+
   cd angular-auth-demo
+  
   ng generate component login
+  
   ng generate component students
+  
   ng generate service auth
