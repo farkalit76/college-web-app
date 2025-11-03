@@ -2,7 +2,9 @@ Create Custom user storage provider (Using Java 17 with Hibernate)
 --------------------------------------------------------------------
 Before proceeding to development download Keycloak keycloak-26.4.1
 1. Create new realm=usmanrealm, client=usmanclient and some Roles etc. (leave user creation right now)
-2. Now Create new Schema and Table inside postgres Database.
+   Note down the client_secret=xqfe5ddhQcm0xuyjzGXMDfD2KLFoLJ6i (this is required in curl and/or in API validation)
+
+3. Now Create new Schema and Table inside postgres Database.
 
 CREATE DATABASE collegedb;
 
@@ -80,6 +82,7 @@ You will get the Response:
 Note: Possible error: Password Mismatch. So you nee to insert password in encrpted form using BCrypt.
 In dashboard your local Users can be found from Search option= * then enter.
 And your external Users will be found as per username from serach option.
+
 
 
 
