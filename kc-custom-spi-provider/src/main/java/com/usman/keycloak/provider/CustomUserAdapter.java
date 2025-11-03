@@ -1,7 +1,6 @@
 package com.usman.keycloak.provider;
 
 import com.usman.keycloak.model.MyUserEntity;
-import jakarta.ws.rs.core.MultivaluedHashMap;
 import org.keycloak.component.ComponentModel;
 import org.keycloak.models.*;
 import org.keycloak.storage.ReadOnlyException;
@@ -13,33 +12,18 @@ import java.util.stream.Stream;
 
 public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
 
-    //private final KeycloakSession session;
-    //private final RealmModel realm;
+    private final RealmModel realm;
     private final ComponentModel model;
     private final MyUserEntity userEntity; // your POJO
     private final String keycloakId;
 
     public CustomUserAdapter(KeycloakSession session, RealmModel realm, ComponentModel model, MyUserEntity userEntity) {
         super(session, realm, model);
-        //this.session = session;
-        //this.realm = realm;
+        this.realm=realm;
         this.model = model;
         this.userEntity = userEntity;
-        System.out.printf("CustomUserAdapter constructor userEntity : "+this.userEntity);
-        //this.keycloakId = StorageId.keycloakId(model, String.valueOf(userEntity.getUserId()));
-        //this.keycloakId = model.getId() + ":" + userEntity.getUserId();;
-       /* System.out.printf("CustomUserAdapter constructor model.getId() + \":\" + userEntity.getUserId():"+(model.getId() + ":" + userEntity.getId()));
-        System.out.println("\n");
-        System.out.printf("CustomUserAdapter constructor userEntity.getUserId():"+userEntity.getId());
-        System.out.println("\n");
-        System.out.printf("CustomUserAdapter constructor StorageId.keycloakId(model, String.valueOf(userEntity.getUserId())):"+StorageId.keycloakId(model, String.valueOf(userEntity.getId())));
-        System.out.println("\n");
-        System.out.printf("CustomUserAdapter constructor new StorageId(model.getId(), String.valueOf(userEntity.getUserId())).getId():"+new StorageId(model.getId(), String.valueOf(userEntity.getId())).getId());
-        */
         this.keycloakId= StorageId.keycloakId(model, String.valueOf(userEntity.getId()));
-        System.out.println("\n");
-        System.out.printf("CustomUserAdapter constructor - created with keycloakId=%s, username=%s",this.keycloakId, userEntity.getUsername());
-        System.out.println("\n");
+        System.out.println("CustomUserAdapter - created keycloakId ="+this.keycloakId);
     }
 
     public String getPassword() {
@@ -54,19 +38,11 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
     @Override
     public String getId() {
         // VERY IMPORTANT: produce a federated id so Keycloak won't try to load local JPA UserEntity
-
-//        System.out.println("CustomUserAdapter getId Returning user ID: (provider) :"+ storageProviderModel.getId());
-//        System.out.println("CustomUserAdapter getId Realm in adapter: "+ realm.getName());
-        //return storageProviderModel.getId() + ":" + userEntity.getUserId();
-        //System.out.println("CustomUserProvider getId is called:"+this.keycloakId);
         return this.keycloakId;
     }
 
     @Override
     public String getUsername() {
-//        System.out.println("CustomUserAdapter getUsername Returning user ID: (provider) :"+ storageProviderModel.getId());
-//        System.out.println("CustomUserAdapter getUsername Realm in adapter: "+ realm.getName());
-        //return userEntity.getUsername();
         System.out.println("CustomUserProvider getUsername is called:"+userEntity.getUsername());
         return userEntity.getUsername() != null ? userEntity.getUsername() : "";
     }
@@ -77,13 +53,11 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
 
     @Override
     public String getEmail() {
-        //return userEntity.getEmail();
         return userEntity.getEmail() != null ? userEntity.getEmail() : "";
     }
 
     @Override
     public void setEmail(String s) {
-
     }
 
     @Override
@@ -93,6 +67,26 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
 
     @Override
     public void setEmailVerified(boolean b) {
+
+    }
+
+    @Override
+    public String getFirstName() {
+        return userEntity.getFirstName();
+    }
+
+    @Override
+    public void setFirstName(String s) {
+
+    }
+
+    @Override
+    public String getLastName() {
+        return userEntity.getLastName();
+    }
+
+    @Override
+    public void setLastName(String s) {
 
     }
 
@@ -125,6 +119,8 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
     public void setEnabled(boolean b) {
 
     }
+
+    // Attributes / roles / groups — minimal implementations
 
     @Override
     public void setSingleAttribute(String name, String value) {
@@ -166,16 +162,10 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
-    // Attributes / roles / groups — minimal implementations
 
     @Override
     public Map<String, List<String>> getAttributes() {
-        System.out.println("CustomUserProvider Map<String, List<String>>:getAttributes called....hello....");
-//        Map<String, List<String>> attrs = super.getAttributes();
-//        MultivaluedHashMap<String, String> all = new MultivaluedHashMap<>();
-//        all.putAll(attrs);
-//        all.add("phone", userEntity.getPhone());
-//        return all;
+        System.out.println("CustomUserProvider Map<String, List<String>>:getAttributes called....");
         Map<String, List<String>> attributes = new HashMap<>();
         // Always return non-null lists, even if empty
         attributes.put(UserModel.USERNAME, List.of(getUsername()));
@@ -183,7 +173,7 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
         attributes.put(UserModel.FIRST_NAME, List.of(getFirstName()));
         attributes.put(UserModel.LAST_NAME, List.of(getLastName()));
         attributes.put("phone", List.of(userEntity.getPhone()));
-        System.out.println("Map getAttributes attribs:"+attributes);
+        System.out.println("CustomUserProvider Map getAttributes :"+attributes);
         return attributes;
     }
 
@@ -200,27 +190,6 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
         }
     }
 
-
-    @Override
-    public String getFirstName() {
-        return userEntity.getFirstName();
-    }
-
-    @Override
-    public void setFirstName(String s) {
-
-    }
-
-    @Override
-    public String getLastName() {
-        return userEntity.getLastName();
-    }
-
-    @Override
-    public void setLastName(String s) {
-
-    }
-
     @Override
     public String getFederationLink() {
         return model.getId();
@@ -230,6 +199,84 @@ public class CustomUserAdapter extends AbstractUserAdapterFederatedStorage {
     public void setFederationLink(String s) {
 
     }
+
+    //Add realm and client roles for each user.
+
+    @Override
+    public Stream<RoleModel> getRealmRoleMappingsStream() {
+        System.out.println("CustomUserProvider getRealmRoleMappingsStream called...");
+        Set<RoleModel> roles = new HashSet<>();
+        // Add default realm roles (these must exist in KC)
+        Stream<RoleModel> rolesStream = realm.getRolesStream();
+        rolesStream.forEach(role ->{
+            RoleModel roleById = realm.getRoleById(role.getId());
+            System.out.println("CustomUserProvider realm role ids :"+role.getId() +", Name :"+ roleById.getName());
+            roles.add(roleById);
+        });
+
+//        RoleModel defaultRole = realm.getRole("RL_MANAGER");
+//        System.out.println("CustomUserProvider defaultRole:"+defaultRole);
+//        if (defaultRole != null) roles.add(defaultRole);
+//
+//        RoleModel adminRole = realm.getRole("RL_ADMIN");
+//        System.out.println("CustomUserProvider adminRole:"+adminRole);
+//        if (adminRole != null) {
+//            roles.add(adminRole);
+//        }
+
+        return roles.stream();
+    }
+
+    @Override
+    public Stream<RoleModel> getClientRoleMappingsStream(ClientModel client) {
+        System.out.println("CustomUserProvider getClientRoleMappingsStream called...");
+        System.out.println("CustomUserProvider client:"+client.getClientId());
+
+        if ("usmanclient".equals(client.getClientId())) {
+            Set<RoleModel> clientRoles = new HashSet<>();
+            Stream<RoleModel> rolesStream = client.getRolesStream();
+
+            rolesStream.forEach(role ->{
+                RoleModel roleById = realm.getRoleById(role.getId());
+                System.out.println("CustomUserProvider client role ids :"+role.getId() +", Name :"+roleById.getName());
+                clientRoles.add(roleById);
+            });
+
+//            RoleModel viewRole = client.getRole("VIEW");
+//            System.out.println("CustomUserProvider viewRole:"+viewRole);
+//            if (viewRole != null) clientRoles.add(viewRole);
+//
+//            RoleModel userRole = client.getRole("USER");
+//            System.out.println("CustomUserProvider userRole:"+userRole);
+//            if (userRole != null) clientRoles.add(userRole);
+
+            return clientRoles.stream();
+        }
+        return Stream.empty();
+    }
+
+    @Override
+    public Stream<RoleModel> getRoleMappingsStream(){
+        System.out.println("CustomUserProvider getRoleMappingsStream called...");
+
+        String myClientId = "usmanclient";
+
+        Optional<ClientModel> myClientOpt = realm.getClientsStream()
+                .filter(client -> myClientId.equals(client.getClientId())).findFirst();
+
+        if (myClientOpt.isPresent()) {
+            ClientModel myClient = myClientOpt.get();
+            System.out.println("Found client: "+ myClient.getClientId());
+            return Stream.concat(
+                    getRealmRoleMappingsStream(),
+                    getClientRoleMappingsStream(myClient)
+            );
+        } else {
+            System.out.println("Client '{}' not found in realm {}"+ realm.getName());
+            return Stream.empty();
+        }
+    }
+
 //
 //    @Override
 //    public String getServiceAccountClientLink() {

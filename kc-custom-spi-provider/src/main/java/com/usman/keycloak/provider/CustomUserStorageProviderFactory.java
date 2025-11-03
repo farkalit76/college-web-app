@@ -55,8 +55,7 @@ public class CustomUserStorageProviderFactory implements UserStorageProviderFact
 
     @Override
     public void close() {
-        System.out.println("<<<<<< Closing provider factory");
-
+        System.out.println("<<<<<< Closing provider factory >>>>>>");
     }
 
 }

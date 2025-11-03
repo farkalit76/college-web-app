@@ -11,7 +11,8 @@ import jakarta.persistence.*;
                 "( lower(u.username) like :search or u.email like :search ) order by u.username"),
 })
 @Entity
-@Table(name = "myuserentity")
+@Table(name = "users")
+//@Table(name = "myuserentity")
 public class MyUserEntity {
 
     @Id

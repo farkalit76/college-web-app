@@ -29,7 +29,7 @@ public class CustomPersistenceUnitInfo implements PersistenceUnitInfo {
 
     @Override
     public PersistenceUnitTransactionType getTransactionType() {
-        //return PersistenceUnitTransactionType.RESOURCE_LOCAL; // Or JTA
+        //return PersistenceUnitTransactionType.RESOURCE_LOCAL; // do not use this
         return PersistenceUnitTransactionType.JTA;
     }
 
