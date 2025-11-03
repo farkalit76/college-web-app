@@ -43,9 +43,18 @@ select * from users;
     -jbcrypt-0.4
     -jbcrypt-0.4-sources
     -postgresql-42.7.8
+Optional:
+    To print log you may put these code into keycolok.conf file:
+    log-level= info, org.keycloak.services.resources.admin:debug, org.keycloak.authentication:debug, org.keycloak.services.resources.admin:debug,com.usman.keycloak:debug
 
-4. Then use command to deploy it: "kc.bat build" after this run: "kc.bat start-dev" 
-5. Execute the curl as Request:
+    To connect external DB you may add the below code inside keyclock.conf file including /persistence.xml file (otherwise this file is not required):
+    db-kind-user-store=postgres
+    db-url-user-store=jdbc:postgresql://localhost:5432/collegedb
+    db-username-user-store=college
+    db-password-user-store=college@001
+   
+5. Then use command to deploy it: "kc.bat build" after this run: "kc.bat start-dev" 
+6. Execute the curl as Request:
 
 curl --location 'http://localhost:8080/realms/usmanrealm/protocol/openid-connect/token' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
@@ -71,6 +80,7 @@ You will get the Response:
 Note: Possible error: Password Mismatch. So you nee to insert password in encrpted form using BCrypt.
 In dashboard your local Users can be found from Search option= * then enter.
 And your external Users will be found as per username from serach option.
+
 
 
 
